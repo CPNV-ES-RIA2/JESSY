@@ -1,0 +1,47 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [13.2.x]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run API in background
+        working-directory: packages/api
+        run: |
+          yarn install
+          yarn mock &
+        env:
+          PORT: 4000
+
+      - name: Run and test app
+        working-directory: packages/client
+        run: |
+          yarn install
+          yarn build
+          yarn start &
+          yarn test
+          yarn cypress:run
+        env:
+          CI: true
+          API_URI: http://localhost:4000/graphql
