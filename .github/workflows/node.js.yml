@@ -30,6 +30,4 @@ jobs:
         run: |
           yarn install
           yarn build
-          yarn start &
-          yarn test
-          yarn cypress:run
+          yarn test:e2e
