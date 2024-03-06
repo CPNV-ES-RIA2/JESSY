@@ -66,6 +66,11 @@ Attention ! If the linter posses problem with CRLF and LF, just run this command
 
 Simply run `yarn build`.
 
+### Docker
+
+If you wish to deploy using the dockerfile, simply run `docker build -t RIA2.frontend/vuejs.frontend .`.
+And then you can run `docker run -it -p 8080:80 --rm --name RIA2.frontend RIA2.frontend/vuejs.frontend`.
+
 ## Tests
 
 The applications has two end to end tests made with cucumber BDD and cypress.
