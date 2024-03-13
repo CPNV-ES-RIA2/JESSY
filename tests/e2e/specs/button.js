@@ -23,7 +23,8 @@ When("Check GUI language", function () {
 });
 
 Then("The result text area will show informations", function (){
-  cy.get("#input-6").should("not.be.empty")
+  cy.wait(4000)//fetch takes some time
+  cy.get("#input-6").should('not.have.value', '');
 });
 
 Then("Language is updated", function (){
