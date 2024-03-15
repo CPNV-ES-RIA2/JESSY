@@ -15,7 +15,7 @@ module.exports = (on, config) => {
   //  webpackOptions: require('@vue/cli-service/webpack.config'),
   //  watchOptions: {}
   // }))
-  on("file:preprocessor", cucumber())
+  on("file:preprocessor", cucumber());
 
   return Object.assign({}, config, {
     fixturesFolder: "tests/e2e/fixtures",
