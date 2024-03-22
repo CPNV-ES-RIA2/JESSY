@@ -4,7 +4,7 @@
     <v-card-text>
       <v-form validate-on="submit lazy" @submit.prevent="upload">
         <v-file-input
-          v-model="formDatas.file"
+          v-model="file"
           prepend-icon=""
           label="File input"
           @update:model-value="enableButton()"
@@ -38,15 +38,17 @@ import axios from "axios";
 export default {
   data() {
     return {
+      file: null,
       formDatas: {
-        file: null,
         remoteFullPath: "",
-        maxLabels: "",
-        minConfidenceLevel: "",
+        localFullPath: "",
+        maxLabels: 0,
+        minConfidenceLevel: 0,
       },
       isButtonDisabled: true,
       isTextDisabled: true,
       text: "",
+      api: "https://localhost:32768/api/Gateway/",
     };
   },
   methods: {
@@ -59,19 +61,18 @@ export default {
         const formData = new FormData();
 
         // Append the file to the FormData object
-        formData.append("formFile", this.formDatas.file[0]);
+        formData.append("formFile", this.file[0]);
 
         // Create headers object with the appropriate Content-Type header including boundary parameter
 
         axios
-          .post("https://localhost:32780/api/Gateway/Upload", formData, {
+          .post(this.api + "Upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
           })
           .then((response) => {
-            this.formDatas.remoteFullPath = response.data;
-            this.analyze();
+            this.analyze(response.data);
           })
           .catch((response) => {
             this.handleError(response);
@@ -88,9 +89,20 @@ export default {
         this.text = JSON.stringify(data);
       });
     },
-    analyze() {
+    analyze(remoteFullPath) {
+      const formData = new FormData();
+
+      formData.append("remoteFullPath", remoteFullPath);
+      formData.append("localFullPath", this.formDatas.localFullPath);
+      formData.append("maxLabels", this.formDatas.maxLabels);
+      formData.append("minConfidenceLevel", this.formDatas.minConfidenceLevel);
+
       axios
-        .post("https://localhost:32768/api/Gateway/Analyze", this.formDatas)
+        .post(this.api + "Analyze", formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
         .then((response) => {
           // Handle response
           console.log(response.data);
