@@ -48,7 +48,7 @@ export default {
       isButtonDisabled: true,
       isTextDisabled: true,
       text: "",
-      api: "https://localhost:32768/api/Gateway/",
+      api: process.env.VUE_APP_API_GATEWAY_URL,
     };
   },
   methods: {
