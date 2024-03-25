@@ -25,7 +25,7 @@ When("Check GUI language", function () {
 });
 
 Then("The result text area will show informations", function () {
-  cy.get("#input-10", {timeout: 12000}).should("not.have.value", ""); //fetch takes some time
+  cy.get("#input-10", { timeout: 12000 }).should("not.have.value", ""); //fetch takes some time
 });
 
 Then("Language is updated", function () {
