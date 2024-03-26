@@ -68,8 +68,7 @@ Simply run `yarn build`.
 
 ### Docker
 
-If you wish to deploy using the dockerfile, simply run `docker build -t RIA2.frontend/vuejs.frontend .`.
-And then you can run `docker run -it -p 8080:80 --rm --name RIA2.frontend RIA2.frontend/vuejs.frontend`.
+If you wish to deploy using the dokcer compose, simply run `docker-compose up --build`.
 
 ## Tests
 
