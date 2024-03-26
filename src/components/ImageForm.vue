@@ -9,16 +9,11 @@
           label="File input"
           @update:model-value="enableButton()"
         ></v-file-input>
-        <v-text-field
-          v-model="formDatas.maxLabels"
-          label="Label amount"
-          value="3"
-        >
+        <v-text-field v-model="formDatas.maxLabels" label="Label amount">
         </v-text-field>
         <v-text-field
           v-model="formDatas.minConfidenceLevel"
           label="Minimum confidence level"
-          value="90"
         >
         </v-text-field>
         <v-btn type="submit" block class="mt-2" :disabled="isButtonDisabled">
@@ -42,8 +37,8 @@ export default {
       formDatas: {
         remoteFullPath: "",
         localFullPath: "",
-        maxLabels: 0,
-        minConfidenceLevel: 0,
+        maxLabels: 3,
+        minConfidenceLevel: 90,
       },
       isButtonDisabled: true,
       isTextDisabled: true,
@@ -62,7 +57,6 @@ export default {
 
         // Append the file to the FormData object
         formData.append("formFile", this.file[0]);
-
         // Create headers object with the appropriate Content-Type header including boundary parameter
 
         axios
@@ -106,7 +100,10 @@ export default {
         .then((response) => {
           // Handle response
           this.isTextDisabled = false;
-          this.text = JSON.stringify(response.data);
+          this.text = ""; // Clear previous result
+          for (let i = 0; i < response.data["Labels"].length; i++) {
+            this.text += `Label: ${response.data["Labels"][i]}, Confidence: ${response.data["Confidences"][i]}\n`;
+          }
         })
         .catch((error) => {
           // Handle error
