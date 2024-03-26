@@ -105,7 +105,8 @@ export default {
         })
         .then((response) => {
           // Handle response
-          console.log(response.data);
+          this.isTextDisabled = false;
+          this.text = JSON.stringify(response.data);
         })
         .catch((error) => {
           // Handle error
