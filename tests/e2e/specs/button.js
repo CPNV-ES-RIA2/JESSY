@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 const { Given, When, Then } = require("cypress-cucumber-preprocessor/steps");
-require("cypress-file-upload");
 
 before(function () {
   cy.visit("/");
