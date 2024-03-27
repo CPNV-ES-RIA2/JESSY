@@ -23,7 +23,6 @@ you can find the complete list in the package.json file, at the frontend folder 
 
 ##### Prod
     "core-js": "^3.8.3",
-    "cypress-file-upload": "^5.0.8",
     "vue": "^3.2.13",
     "vue-i18n": "^9.9.1",
     "vuetify": "^3.5.4"
