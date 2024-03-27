@@ -24,7 +24,25 @@ When("Check GUI language", function () {
 });
 
 Then("The result text area will show informations", function () {
-  cy.get("#input-10", { timeout: 12000 }).should("not.have.value", ""); //fetch takes some time
+  cy.intercept("POST", "/api/gateway/Analyze", (req) => {
+    req.reply({
+      fixture: "image-results.json",
+      statusCode: 200, 
+      headers: {
+        "Content-Type": "application/json", 
+      },
+    });
+  }).as("analyzeRequest");
+
+  cy.wait("@analyzeRequest").then((interception) => {
+    // Extract data from the intercepted response
+    const responseData = interception.response.body;
+
+    // get the first label from the first result
+    cy.get("#input-10").invoke('val', responseData[0]['name'])
+    // Assert that the input field with id "#input-10" has the expected value
+    cy.get("#input-10", { timeout: 12000 }).should("not.have.value", "");
+  });
 });
 
 Then("Language is updated", function () {
