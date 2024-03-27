@@ -52,6 +52,7 @@ you can find the complete list in the package.json file, at the frontend folder 
 
 First, you will need to install all of the dependencies, just run `yarn install`.
 
+Then, copy `.env.example` in the project root and rename it to `.env.local`, and change the value of VUE_APP_API_GATEWAY_URL to whatever you need.
 
 ## Deployment
 
