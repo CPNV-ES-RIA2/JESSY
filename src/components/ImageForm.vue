@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import Analyzer from "../api/mock/index.js";
 import axios from "axios";
 
 export default {
@@ -77,11 +76,7 @@ export default {
     },
     handleError(response) {
       console.log(response);
-      Analyzer.analyze().then((data) => {
-        // Handle the analysis result here
-        this.isTextDisabled = false;
-        this.text = JSON.stringify(data);
-      });
+      this.text = "You are offline, check your connection";
     },
     analyze(remoteFullPath) {
       const formData = new FormData();
